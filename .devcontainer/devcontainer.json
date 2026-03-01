@@ -1,0 +1,13 @@
+{
+    "name": "openscrollytelling",
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "runArgs": ["--cap-add=NET_ADMIN", "--cap-add=NET_RAW"],
+    "containerEnv": {
+        "CLAUDE_CONFIG_DIR": "/home/codespace/.claude"
+    },
+    "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
+    "workspaceFolder": "/workspace",
+    "postStartCommand": "sudo iptables -P OUTPUT ACCEPT && sudo iptables -P INPUT ACCEPT",
+    "waitFor": "postStartCommand"
+}
