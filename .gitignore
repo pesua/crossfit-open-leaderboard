@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+
+# uv
+.python-version
+
+# Data artifacts
+*.csv
+
+# Dashboard
+dashboard/node_modules/
+dashboard/build/
+dashboard/.svelte-kit/
+dashboard/static/data/
+
+# Editors
+.vscode/
+.idea/
+*.swp

@@ -1,0 +1,147 @@
+:root {
+	--bg-primary: #0f172a;
+	--bg-secondary: #1e293b;
+	--bg-tertiary: #334155;
+	--text-primary: #f1f5f9;
+	--text-secondary: #94a3b8;
+	--text-muted: #64748b;
+	--accent: #6366f1;
+	--accent-light: #818cf8;
+	--highlight: #f59e0b;
+	--highlight-light: #fbbf24;
+	--success: #22c55e;
+	--danger: #ef4444;
+	--chart-height: 420px;
+	--max-width: 1200px;
+	--radius: 12px;
+	--radius-sm: 8px;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	background: var(--bg-primary);
+	color: var(--text-primary);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+input, select, button {
+	font-family: inherit;
+}
+
+.container {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+/* Scrollytelling layout */
+.scroll-container {
+	position: relative;
+}
+
+.scroll-body {
+	display: flex;
+	gap: 2rem;
+}
+
+.steps-column {
+	flex: 0 0 40%;
+	min-width: 0;
+}
+
+.chart-column {
+	flex: 1;
+	min-width: 0;
+}
+
+.sticky-chart {
+	position: sticky;
+	top: 2rem;
+	height: calc(100vh - 4rem);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.step {
+	min-height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 2rem 0;
+}
+
+.step-content {
+	background: var(--bg-secondary);
+	border-radius: var(--radius);
+	padding: 2rem;
+	border: 1px solid var(--bg-tertiary);
+}
+
+.step-content h2 {
+	font-size: 1.5rem;
+	margin-bottom: 0.75rem;
+}
+
+.step-content p {
+	color: var(--text-secondary);
+	font-size: 1.05rem;
+}
+
+/* Responsive */
+@media (max-width: 1023px) {
+	.scroll-body {
+		flex-direction: column;
+	}
+
+	.steps-column {
+		flex: none;
+		width: 100%;
+	}
+
+	.sticky-chart {
+		position: relative;
+		top: auto;
+		height: auto;
+		min-height: var(--chart-height);
+	}
+
+	.step {
+		min-height: 40vh;
+	}
+
+	:root {
+		--chart-height: 350px;
+	}
+}
+
+@media (max-width: 639px) {
+	:root {
+		--chart-height: 300px;
+	}
+
+	.step-content {
+		padding: 1.25rem;
+	}
+
+	.step-content h2 {
+		font-size: 1.25rem;
+	}
+}
