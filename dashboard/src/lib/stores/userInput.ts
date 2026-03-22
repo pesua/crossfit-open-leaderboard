@@ -54,11 +54,10 @@ export function createDerivedStats(data: AllData) {
 
 			// Per-WOD percentiles
 			const wodPercentiles = scores.map((s, i) => {
-				if (s.numeric === null) return null;
+				if (s.numeric === null || s.scoreType === null) return null;
 				const wodKey = `wod_${i + 1}` as keyof typeof perc;
 				const wodPerc = perc[wodKey] as { rx: Record<string, any>; scaled: Record<string, any> };
-				const tierData = wodPerc[s.tier];
-				const bp = tierData?.all;
+				const bp = wodPerc[s.tier]?.[s.scoreType]?.all;
 				if (!bp) return null;
 
 				// For reps, higher is better. For time, lower is better.
@@ -79,11 +78,10 @@ export function createDerivedStats(data: AllData) {
 			let ageGroupPercentile: number | null = null;
 			if (validPercentiles.length > 0) {
 				const agePercentiles = scores.map((s, i) => {
-					if (s.numeric === null) return null;
+					if (s.numeric === null || s.scoreType === null) return null;
 					const wodKey = `wod_${i + 1}` as keyof typeof perc;
 					const wodPerc = perc[wodKey] as { rx: Record<string, any>; scaled: Record<string, any> };
-					const tierData = wodPerc[s.tier];
-					const bp = tierData?.[$bracket];
+					const bp = wodPerc[s.tier]?.[s.scoreType]?.[$bracket];
 					if (!bp) return null;
 					const lowerIsBetter = s.scoreType === 'time';
 					return computePercentile(s.numeric, bp, lowerIsBetter);

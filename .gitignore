@@ -10,6 +10,7 @@ dist/
 
 # Data artifacts
 *.csv
+*.json
 
 # Dashboard
 dashboard/node_modules/

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import type { AllData, DistributionSet, Gender, Tier } from '$lib/data/types';
 	import {
 		gender,
@@ -39,8 +39,8 @@
 		}
 	});
 
-	// Scrollama setup
-	onMount(async () => {
+	async function initScrollama() {
+		await tick();
 		const scrollama = (await import('scrollama')).default;
 		const scroller = scrollama();
 		scroller
@@ -48,16 +48,12 @@
 			.onStepEnter(({ index }: { index: number }) => {
 				activeStep = index;
 			});
-
 		window.addEventListener('resize', scroller.resize);
-		return () => {
-			scroller.destroy();
-			window.removeEventListener('resize', scroller.resize);
-		};
-	});
+	}
 
 	function handleStart() {
 		showResults = true;
+		initScrollama();
 		setTimeout(() => {
 			document.querySelector('.scroll-start')?.scrollIntoView({ behavior: 'smooth' });
 		}, 100);

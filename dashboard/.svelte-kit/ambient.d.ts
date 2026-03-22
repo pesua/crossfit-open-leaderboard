@@ -141,6 +141,7 @@ declare module '$env/static/private' {
 	export const GEM_PATH: string;
 	export const npm_execpath: string;
 	export const NVM_CD_FLAGS: string;
+	export const XDG_DATA_DIRS: string;
 	export const npm_config_global_prefix: string;
 	export const npm_command: string;
 	export const PYTHON_ROOT: string;
@@ -343,6 +344,7 @@ declare module '$env/dynamic/private' {
 		GEM_PATH: string;
 		npm_execpath: string;
 		NVM_CD_FLAGS: string;
+		XDG_DATA_DIRS: string;
 		npm_config_global_prefix: string;
 		npm_command: string;
 		PYTHON_ROOT: string;

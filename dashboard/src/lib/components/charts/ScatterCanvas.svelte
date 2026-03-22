@@ -33,10 +33,12 @@
 	let innerW = $derived(Math.max(100, width - margin.left - margin.right));
 	let innerH = $derived(Math.max(50, height - margin.top - margin.bottom));
 
-	let xDomain = $derived([
-		min(data.points, (p) => p[0]) ?? 0,
-		max(data.points, (p) => p[0]) ?? 1
-	] as [number, number]);
+	let xDomain = $derived((() => {
+		const xs = data.points.map((p) => p[0]).sort((a, b) => a - b);
+		const lo = xs[Math.floor(xs.length * 0.01)] ?? 0;
+		const hi = xs[Math.ceil(xs.length * 0.99) - 1] ?? 1;
+		return [lo, hi] as [number, number];
+	})());
 
 	let yDomain = $derived([
 		min(data.points, (p) => p[1]) ?? 0,

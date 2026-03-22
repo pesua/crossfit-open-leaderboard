@@ -19,7 +19,7 @@ export function computePercentile(
 	// Find where value falls in the breakpoints
 	if (lowerIsBetter) {
 		// Lower value = better = higher percentile
-		// p1 = best performers (low rank), p99 = worst (high rank)
+		// p1 = best performers (low rank), p100 = worst (high rank)
 		if (value <= values[0]) return 99; // better than p1
 		if (value >= values[values.length - 1]) return 1; // worse than p99
 

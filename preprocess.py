@@ -148,19 +148,26 @@ def write_percentiles(df: pd.DataFrame, gender: str):
         if bp:
             out["overall"][bracket] = bp
 
-    # Per-WOD rank percentiles, split by rx/scaled
+    # Per-WOD score percentiles, split by rx/scaled and score type (reps vs time)
     for wod in [1, 2, 3]:
         key = f"wod_{wod}"
         out[key] = {"rx": {}, "scaled": {}}
         for tier, is_scaled in [("rx", False), ("scaled", True)]:
             sub = df[df[f"wod_{wod}_is_scaled"] == is_scaled]
-            sub = sub[sub[f"wod_{wod}_rank"].notna()]
-            out[key][tier]["all"] = compute_percentile_breakpoints(sub[f"wod_{wod}_rank"])
-            for bracket in AGE_BRACKETS:
-                bsub = sub[sub["age_bracket"] == bracket]
-                bp = compute_percentile_breakpoints(bsub[f"wod_{wod}_rank"])
+            sub = sub[sub[f"wod_{wod}_numeric"].notna()]
+            for stype in ["reps", "time"]:
+                stype_sub = sub[sub[f"wod_{wod}_type"] == stype]
+                if len(stype_sub) < 10:
+                    continue
+                out[key][tier][stype] = {}
+                bp = compute_percentile_breakpoints(stype_sub[f"wod_{wod}_numeric"])
                 if bp:
-                    out[key][tier][bracket] = bp
+                    out[key][tier][stype]["all"] = bp
+                for bracket in AGE_BRACKETS:
+                    bsub = stype_sub[stype_sub["age_bracket"] == bracket]
+                    bp_bracket = compute_percentile_breakpoints(bsub[f"wod_{wod}_numeric"])
+                    if bp_bracket:
+                        out[key][tier][stype][bracket] = bp_bracket
 
     path = OUT_DIR / f"percentiles.{gender}.json"
     path.write_text(json.dumps(out, separators=(",", ":")))
