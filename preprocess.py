@@ -6,6 +6,7 @@ Reads:  crossfit_open_2025_men.csv, crossfit_open_2025_women.csv
 Writes: dashboard/static/data/*.json
 """
 
+import argparse
 import csv
 import json
 import math
@@ -16,10 +17,13 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-OUT_DIR = Path("dashboard/static/data")
 PERCENTILES = [1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 96, 97, 98, 99]
 AGE_BRACKETS = ["16-17", "18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50+"]
 SCATTER_SAMPLE = 5000
+
+# Set by main() after argument parsing
+OUT_DIR: Path = Path("dashboard/static/data/2025")
+year: int = 2025
 
 
 # ---------------------------------------------------------------------------
@@ -299,9 +303,10 @@ def write_meta(men_df: pd.DataFrame, women_df: pd.DataFrame):
             rx = df[~df[f"wod_{wod}_is_scaled"] & df[f"wod_{wod}_numeric"].notna()]
             scaled = df[df[f"wod_{wod}_is_scaled"] & df[f"wod_{wod}_numeric"].notna()]
             types = rx[f"wod_{wod}_type"].value_counts().to_dict()
+            short_year = str(year)[2:]
             meta["wods"].append({
                 "index": wod,
-                "name": f"25.{wod}",
+                "name": f"{short_year}.{wod}",
                 "rx_count": int(len(rx)),
                 "scaled_count": int(len(scaled)),
                 "score_types": {k: int(v) for k, v in types.items()},
@@ -322,14 +327,23 @@ def write_meta(men_df: pd.DataFrame, women_df: pd.DataFrame):
 # ---------------------------------------------------------------------------
 
 def main():
+    parser = argparse.ArgumentParser(description="Preprocess CrossFit Open CSV data")
+    parser.add_argument("--year", type=int, default=2025, help="Competition year (e.g. 2026)")
+    args = parser.parse_args()
+
+    global OUT_DIR, year
+    year = args.year
+    OUT_DIR = Path(f"dashboard/static/data/{year}")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    print(f"Processing {year} data...", flush=True)
+
     print("Loading men's data...", flush=True)
-    men = load_and_clean("crossfit_open_2025_men.csv")
+    men = load_and_clean(f"crossfit_open_{year}_men.csv")
     print(f"  {len(men)} athletes (after DNS removal)", flush=True)
 
     print("Loading women's data...", flush=True)
-    women = load_and_clean("crossfit_open_2025_women.csv")
+    women = load_and_clean(f"crossfit_open_{year}_women.csv")
     print(f"  {len(women)} athletes (after DNS removal)", flush=True)
 
     for gender, df in [("men", men), ("women", women)]:

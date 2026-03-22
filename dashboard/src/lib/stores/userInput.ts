@@ -3,6 +3,7 @@ import type { Gender, Tier, UserScoreInput, AllData } from '$lib/data/types';
 import { parseUserScore } from '$lib/data/scores';
 import { computePercentile, computeOverallPercentile } from '$lib/data/percentile';
 
+export const year = writable<string>('2026');
 export const gender = writable<Gender>('men');
 export const age = writable<number>(30);
 export const region = writable<string>('');

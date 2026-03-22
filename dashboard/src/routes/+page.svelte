@@ -2,6 +2,7 @@
 	import { onMount, tick } from 'svelte';
 	import type { AllData, DistributionSet, Gender, Tier } from '$lib/data/types';
 	import {
+		year,
 		gender,
 		age,
 		wod1Raw,
@@ -18,13 +19,19 @@
 	import BoxPlot from '$lib/components/charts/BoxPlot.svelte';
 	import ScatterCanvas from '$lib/components/charts/ScatterCanvas.svelte';
 
-	let { data } = $props<{ data: { data: AllData } }>();
-	let allData = $derived(data.data);
+	let { data } = $props<{ data: { years: Record<string, AllData>; availableYears: string[] } }>();
+	let allData = $derived(data.years[$year] ?? data.years[data.availableYears[data.availableYears.length - 1]]);
 
 	let stats = $derived(createDerivedStats(allData));
 
 	let activeStep = $state(0);
 	let showResults = $state(false);
+
+	$effect(() => {
+		$year; // track year changes
+		showResults = false;
+		activeStep = 0;
+	});
 	let chartWidth = $state(560);
 	let chartContainer: HTMLElement;
 
@@ -82,7 +89,15 @@
 	<section class="hero">
 		<div class="container hero-inner">
 			<h1 class="hero-title">Where Do You Rank?</h1>
-			<p class="hero-subtitle">2025 CrossFit Open</p>
+			<div class="year-selector">
+				{#each data.availableYears as y}
+					<button
+						class="year-pill"
+						class:active={$year === y}
+						onclick={() => year.set(y)}
+					>{y} Open</button>
+				{/each}
+			</div>
 			<p class="hero-desc">
 				Enter your scores to see how you compare against
 				{allData.meta.men.total_athletes.toLocaleString()} men and
@@ -189,7 +204,7 @@
 							<h2>Your Overall Ranking</h2>
 							<p>
 								Among {genderMeta.total_athletes.toLocaleString()} {genderMeta.label.toLowerCase()} who competed in
-								the 2025 CrossFit Open, here's where you stand.
+								the {$year} CrossFit Open, here's where you stand.
 							</p>
 						</div>
 					</div>
@@ -210,7 +225,7 @@
 						<div class="step-content">
 							<h2>Across All Age Groups</h2>
 							<p>
-								How does raw performance vary across age groups on 25.1?
+								How does raw performance vary across age groups on {genderMeta.wods[0].name}?
 								Each box shows the range from 10th to 90th percentile, with the median marked.
 							</p>
 						</div>
@@ -219,7 +234,7 @@
 					<!-- Step 3: WOD 1 -->
 					<div class="step scroll-step">
 						<div class="step-content">
-							<h2>25.1 — Deep Dive</h2>
+							<h2>{genderMeta.wods[0].name} — Deep Dive</h2>
 							<p>
 								{#if $stats.wodScores[0].numeric !== null}
 									You scored <strong>{$stats.wodScores[0].raw}</strong>
@@ -235,7 +250,7 @@
 					<!-- Step 4: WOD 2 -->
 					<div class="step scroll-step">
 						<div class="step-content">
-							<h2>25.2 — Deep Dive</h2>
+							<h2>{genderMeta.wods[1].name} — Deep Dive</h2>
 							<p>
 								{#if $stats.wodScores[1].numeric !== null}
 									You scored <strong>{$stats.wodScores[1].raw}</strong>
@@ -250,7 +265,7 @@
 					<!-- Step 5: WOD 3 -->
 					<div class="step scroll-step">
 						<div class="step-content">
-							<h2>25.3 — Deep Dive</h2>
+							<h2>{genderMeta.wods[2].name} — Deep Dive</h2>
 							<p>
 								{#if $stats.wodScores[2].numeric !== null}
 									You scored <strong>{$stats.wodScores[2].raw}</strong>
@@ -311,7 +326,7 @@
 									userBracket={$ageBracket}
 									userValue={$stats.wodScores[0].numeric}
 									scoreType={$stats.wodScores[0].scoreType ?? 'reps'}
-									title="25.1 Score by Age Group (Rx)"
+									title="{genderMeta.wods[0].name} Score by Age Group (Rx)"
 									width={chartWidth}
 								/>
 							{:else if activeStep === 3}
@@ -319,7 +334,7 @@
 									distribution={getWodDist(1, $stats.wodScores[0].tier, $stats.wodScores[0].scoreType)}
 									userValue={$stats.wodScores[0].numeric}
 									scoreType={$stats.wodScores[0].scoreType}
-									title="25.1 Score Distribution ({$stats.wodScores[0].tier.toUpperCase()})"
+									title="{genderMeta.wods[0].name} Score Distribution ({$stats.wodScores[0].tier.toUpperCase()})"
 									width={chartWidth}
 								/>
 							{:else if activeStep === 4}
@@ -327,7 +342,7 @@
 									distribution={getWodDist(2, $stats.wodScores[1].tier, $stats.wodScores[1].scoreType)}
 									userValue={$stats.wodScores[1].numeric}
 									scoreType={$stats.wodScores[1].scoreType}
-									title="25.2 Score Distribution ({$stats.wodScores[1].tier.toUpperCase()})"
+									title="{genderMeta.wods[1].name} Score Distribution ({$stats.wodScores[1].tier.toUpperCase()})"
 									width={chartWidth}
 								/>
 							{:else if activeStep === 5}
@@ -335,7 +350,7 @@
 									distribution={getWodDist(3, $stats.wodScores[2].tier, $stats.wodScores[2].scoreType)}
 									userValue={$stats.wodScores[2].numeric}
 									scoreType={$stats.wodScores[2].scoreType}
-									title="25.3 Score Distribution ({$stats.wodScores[2].tier.toUpperCase()})"
+									title="{genderMeta.wods[2].name} Score Distribution ({$stats.wodScores[2].tier.toUpperCase()})"
 									width={chartWidth}
 								/>
 							{:else if activeStep === 6}
@@ -372,7 +387,7 @@
 		<!-- Footer -->
 		<footer class="footer container">
 			<p>
-				Data from the 2025 CrossFit Open via the public API.
+				Data from the {$year} CrossFit Open via the public API.
 				{(allData.meta.men.total_athletes + allData.meta.women.total_athletes).toLocaleString()} athletes analyzed.
 			</p>
 		</footer>
@@ -409,11 +424,34 @@
 		margin-bottom: 0.25rem;
 	}
 
-	.hero-subtitle {
-		font-size: 1.25rem;
-		color: var(--text-secondary);
-		font-weight: 500;
+	.year-selector {
+		display: flex;
+		gap: 0.5rem;
+		justify-content: center;
 		margin-bottom: 1rem;
+	}
+
+	.year-pill {
+		padding: 0.4rem 1.1rem;
+		border-radius: 999px;
+		border: 1px solid var(--bg-tertiary);
+		background: transparent;
+		color: var(--text-secondary);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.15s ease;
+	}
+
+	.year-pill:hover {
+		border-color: var(--accent);
+		color: var(--text-primary);
+	}
+
+	.year-pill.active {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: white;
 	}
 
 	.hero-desc {
