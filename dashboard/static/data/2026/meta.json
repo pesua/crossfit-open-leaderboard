@@ -1,0 +1,112 @@
+{
+  "men": {
+    "label": "Men",
+    "total_athletes": 117928,
+    "age_brackets": [
+      "16-17",
+      "18-24",
+      "25-29",
+      "30-34",
+      "35-39",
+      "40-44",
+      "45-49",
+      "50+"
+    ],
+    "regions": [
+      "Africa",
+      "Asia",
+      "Europe",
+      "North America East",
+      "North America West",
+      "Oceania",
+      "South America"
+    ],
+    "wods": [
+      {
+        "index": 1,
+        "name": "26.1",
+        "rx_count": 103015,
+        "scaled_count": 10991,
+        "score_types": {
+          "reps": 102961,
+          "time": 54
+        }
+      },
+      {
+        "index": 2,
+        "name": "26.2",
+        "rx_count": 92478,
+        "scaled_count": 14653,
+        "score_types": {
+          "reps": 79727,
+          "time": 12751
+        }
+      },
+      {
+        "index": 3,
+        "name": "26.3",
+        "rx_count": 91925,
+        "scaled_count": 10202,
+        "score_types": {
+          "reps": 91911,
+          "time": 14
+        }
+      }
+    ]
+  },
+  "women": {
+    "label": "Women",
+    "total_athletes": 99102,
+    "age_brackets": [
+      "16-17",
+      "18-24",
+      "25-29",
+      "30-34",
+      "35-39",
+      "40-44",
+      "45-49",
+      "50+"
+    ],
+    "regions": [
+      "Africa",
+      "Asia",
+      "Europe",
+      "North America East",
+      "North America West",
+      "Oceania",
+      "South America"
+    ],
+    "wods": [
+      {
+        "index": 1,
+        "name": "26.1",
+        "rx_count": 73734,
+        "scaled_count": 22284,
+        "score_types": {
+          "reps": 73621,
+          "time": 113
+        }
+      },
+      {
+        "index": 2,
+        "name": "26.2",
+        "rx_count": 66101,
+        "scaled_count": 24120,
+        "score_types": {
+          "reps": 58671,
+          "time": 7430
+        }
+      },
+      {
+        "index": 3,
+        "name": "26.3",
+        "rx_count": 70145,
+        "scaled_count": 16948,
+        "score_types": {
+          "reps": 70032,
+          "time": 113
+        }
+      }
+    ]
+  }
+}

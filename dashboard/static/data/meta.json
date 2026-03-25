@@ -1,0 +1,110 @@
+{
+  "men": {
+    "label": "Men",
+    "total_athletes": 113222,
+    "age_brackets": [
+      "16-17",
+      "18-24",
+      "25-29",
+      "30-34",
+      "35-39",
+      "40-44",
+      "45-49",
+      "50+"
+    ],
+    "regions": [
+      "Africa",
+      "Asia",
+      "Europe",
+      "North America East",
+      "North America West",
+      "Oceania",
+      "South America"
+    ],
+    "wods": [
+      {
+        "index": 1,
+        "name": "25.1",
+        "rx_count": 97461,
+        "scaled_count": 13115,
+        "score_types": {
+          "reps": 97461
+        }
+      },
+      {
+        "index": 2,
+        "name": "25.2",
+        "rx_count": 85502,
+        "scaled_count": 16451,
+        "score_types": {
+          "reps": 67066,
+          "time": 18436
+        }
+      },
+      {
+        "index": 3,
+        "name": "25.3",
+        "rx_count": 83699,
+        "scaled_count": 13734,
+        "score_types": {
+          "reps": 51857,
+          "time": 31842
+        }
+      }
+    ]
+  },
+  "women": {
+    "label": "Women",
+    "total_athletes": 90920,
+    "age_brackets": [
+      "16-17",
+      "18-24",
+      "25-29",
+      "30-34",
+      "35-39",
+      "40-44",
+      "45-49",
+      "50+"
+    ],
+    "regions": [
+      "Africa",
+      "Asia",
+      "Europe",
+      "North America East",
+      "North America West",
+      "Oceania",
+      "South America"
+    ],
+    "wods": [
+      {
+        "index": 1,
+        "name": "25.1",
+        "rx_count": 68089,
+        "scaled_count": 20873,
+        "score_types": {
+          "reps": 68089
+        }
+      },
+      {
+        "index": 2,
+        "name": "25.2",
+        "rx_count": 55181,
+        "scaled_count": 26188,
+        "score_types": {
+          "reps": 45861,
+          "time": 9320
+        }
+      },
+      {
+        "index": 3,
+        "name": "25.3",
+        "rx_count": 55399,
+        "scaled_count": 23325,
+        "score_types": {
+          "reps": 39743,
+          "time": 15656
+        }
+      }
+    ]
+  }
+}

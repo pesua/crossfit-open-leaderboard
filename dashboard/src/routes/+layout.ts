@@ -1,3 +1,4 @@
+import { base as appBase } from '$app/paths';
 import type { AllData, Meta, PercentileData, Distributions, AgeDistributions, ScatterData } from '$lib/data/types';
 
 export const prerender = true;
@@ -5,7 +6,7 @@ export const prerender = true;
 const YEARS = ['2025', '2026'];
 
 async function loadYear(fetch: typeof globalThis.fetch, y: string): Promise<AllData | null> {
-	const base = `/data/${y}`;
+	const base = `${appBase}/data/${y}`;
 	const get = async <T>(path: string): Promise<T | null> => {
 		try {
 			const res = await fetch(path);
