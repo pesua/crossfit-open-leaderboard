@@ -11,12 +11,12 @@ dist/
 # Data artifacts
 *.csv
 *.json
+!dashboard/static/data/**
 
 # Dashboard
 dashboard/node_modules/
 dashboard/build/
 dashboard/.svelte-kit/
-dashboard/static/data/
 
 # Editors
 .vscode/

@@ -1,13 +1,16 @@
-# 2025 CrossFit Open — Leaderboard Explorer
+# CrossFit Open — Leaderboard Explorer
 
 Scrape the CrossFit Open leaderboard, preprocess it, and serve an interactive scrollytelling dashboard where athletes can enter their scores and see how they rank worldwide.
+
+**Live site:** [github-pages-url] <!-- update after first deploy -->
 
 ## Project Structure
 
 ```
-scrape_crossfit.py   — Fetch leaderboard data from the CrossFit API → CSV
-preprocess.py        — Transform CSVs into optimised JSON for the dashboard
-dashboard/           — SvelteKit web app (scrollytelling visualisation)
+scrape_crossfit.py        — Fetch leaderboard data from the CrossFit API → CSV
+preprocess.py             — Transform CSVs into optimised JSON for the dashboard
+dashboard/                — SvelteKit web app (scrollytelling visualisation)
+.github/workflows/        — GitHub Actions: build & deploy to GitHub Pages
 ```
 
 ## Pipeline
@@ -74,6 +77,21 @@ cd dashboard
 npm install      # first time only
 npm run dev      # http://localhost:5173
 npm run build    # production build → dashboard/build/
+```
+
+### Deployment
+
+The dashboard is published to GitHub Pages via GitHub Actions on every push to `main`. To set it up:
+
+1. Go to **Settings → Pages** in the GitHub repo and set Source to **GitHub Actions**.
+2. Push to `main` — the workflow builds with the correct base path and deploys automatically.
+
+To test the production build locally with the base path applied:
+
+```sh
+cd dashboard
+BASE_PATH=/crossfit-open-leaderboard npm run build
+npm run preview
 ```
 
 ## Dev Container
